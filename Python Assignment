@@ -1,0 +1,44 @@
+import re 
+
+Dict4=[]
+maxi=[]
+a=open("a.txt") 
+a=a.readlines()
+for i in a:
+    k=(re.findall(r"[{].\w+.{3}\w{3}.{3}\w{5}.{2}\s*\d+[}]",i))
+    Dict4+=k
+
+b=open("b.txt")
+b=b.read()
+k=(re.findall(r"[{].\w+.{3}\w{3}.{3}\w{5}.{2}\s*\d+[}]",b))
+Dict4+=k
+
+Dict4.sort()
+
+for i in Dict4: 
+   for j in Dict4[((Dict4.index(i))+1):]: 
+       if ((re.findall("\w+[ATGC]{1}",i)))==((re.findall("\w+[ATGC]{1}",j))):
+           z=int((re.search("\d+",i)).group()) 
+           s=int((re.search("\d+",j)).group())
+
+           location=Dict4.index(i)
+           i=i.replace((str(z)),(str(z+s)))
+           Dict4[location]=(i)
+           Dict4.remove(j)
+
+for i in Dict4:
+    print(i)
+
+print("\n\n\n")
+
+Dict4file=open("c.txt","w")
+Dict4file.write("Dict4= ")
+Dict4file.write(str(Dict4))
+Dict4file.close()
+
+def func(e):
+    return (int((re.search(r"\d+",e)).group()))
+
+Dict4.sort(reverse=True, key=func)
+for i in Dict4[0:3]:
+    print(i)
